@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../styles.css" type="text/css" rel="stylesheet" />
+    <title>Biblioteca</title>
+</head>
+
+<body class="background">
+    <header th:replace="fragmentos/navbar::miNavBar"></header>
+
+
+    <div class="container bg-opaco rounded-3 mt-5">
+
+        
+        <form action="/libro/form" method="post" class="">
+            <h3>Crear Libro</h3>
+            <input type="hidden" name="id" th:value="${id}">
+
+            <fieldset disabled>
+                <div class="row mb-3">
+                    <label for="id" class="col-sm-2 col-form-label">id</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="id" placeholder="Se genera Automaticamente" th:value="${id}"
+                            class="form-control">
+                    </div>
+                </div>
+            </fieldset>
+
+
+
+            <div class="row mb-3">
+                <label for="titulo" class="col-sm-2 col-form-label">titulo</label>
+                <div class="col-sm-4">
+                    <input type="text" name="titulo" th:value="${titulo}" class="form-control">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="isbn" class="col-sm-2 col-form-label">isbn</label>
+                <div class="col-sm-4">
+                    <input type="number" name="isbn" class="form-control" th:value="${isbn}">
+                </div>
+            </div>
+
+
+            <div class="row mb-3">
+                <label for="anio" class="col-sm-2 col-form-label">año</label>
+                <div class="col-sm-4">
+                    <input type="number" name="anio" th:value="${anio}" class="form-control">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="ejemplares" class="col-sm-2 col-form-label">ejemplares</label>
+                <div class="col-sm-4">
+                    <input type="number" name="ejemplares" th:value="${ejemplares}" class="form-control">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="ejemplaresPrestados" class="col-sm-2 col-form-label">ejemplares prestados</label>
+                <div class="col-sm-4">
+                    <input type="number" name="ejemplaresPrestados" th:value="${ejemplaresPrestados}"
+                        class="form-control">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="EjemplaresRestantes" class="col-sm-2 col-form-label">Ejemplares restantes</label>
+                <div class="col-sm-4">
+                    <input type="number" name="EjemplaresRestantes" th:value="${ejemplaresRestantes}"
+                        class="form-control">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="autor" class="col-sm-2 col-form-label">Autor:</label>
+                <div class="col-sm-2">
+                    <select name="autorId" id="autor" class="form-select mb-1" aria-label="Default select example">
+                        <option selected>Seleccione Autor</option>
+                        <option th:each="autor:${autores}" th:value="${autor.id}" th:text="${autor.nombre}"
+                            th:selected="${autor.id==autorId}"></option>
+
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <a class="btn btn-primary" href="/autor/form">Crear nuevo</a>
+
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <label for="editorial" class="col-sm-2 col-form-label">Editorial:</label>
+                <div class="col-sm-2">
+                    <select name="editorialId" id="editorial" class="form-select mb-1"
+                        aria-label="Default select example">
+                        <option selected>Seleccione Editorial</option>
+                        <option th:each="editorial:${editoriales}" th:value="${editorial.id}"
+                            th:text="${editorial.nombre}" th:selected="${editorial.id==editorialId}">
+                        </option>
+                    </select>
+                   
+                </div>
+                <div class="col-sm-2">
+                    <a class="btn btn-primary" href="/editorial/form">Crear nueva</a>
+                    </div>
+            </div>
+
+
+
+
+            <button type="submit" class="btn btn-primary mb-3">Guardar</button>
+        </form>
+        <p class="text-center" th:text="${error != null ? error : '' }"></p>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
