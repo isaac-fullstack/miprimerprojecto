@@ -15,32 +15,9 @@
 <body class="background">
     <header th:replace="fragmentos/navbar::miNavBar"></header>
 
-    <div class="container bg-opaco rounded-3 mt-5">
-        <form th:action="@{/logincheck}" method="post">
-            <h3 class="text-center mb-3 ">Log In</h3>
-
-            <div class="row mb-3 ">
-                <label class="col-sm-2 col-form-label">Email</label>
-                <div class="col-sm-4">
-                    <input class="form-control" type="email" name="email">
-                </div>
-            </div>
-
-            <div class="row mb-3 ">
-                <label class="col-sm-2 col-form-label">clave</label>
-                <div class="col-sm-4">
-                    <input class="form-control" type="password" name="clave">
-                </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary mb-3">Log In</button>
-            
-
-            </div>            
-        </form>
-
-        <p class="text-center" th:text="${error != null ? error : '' }"></p>
-
+    <div class="container-xl position-absolute top-50 start-50 translate-middle  rounded-pill ">
+        <h1 class=" ">404</h1>
+        <h2>Opps! algo ha ido mal!</h2>
     </div>
 
     <footer th:replace="fragmentos/footer::myFooter"></footer>

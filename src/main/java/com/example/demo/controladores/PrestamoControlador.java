@@ -75,6 +75,7 @@ public class PrestamoControlador {
         return "redirect:/cliente/perfil";
     }
     
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/listado")
     public String mostrarPrestamos(ModelMap model){
         

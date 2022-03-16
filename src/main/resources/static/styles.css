@@ -40,3 +40,13 @@
   bottom: 0;
   
 }
+
+.error-container{
+  text-align: center;
+  justify-content: center;
+}
+
+.error-container h1{
+  position: relative;
+  top: 50%;
+}

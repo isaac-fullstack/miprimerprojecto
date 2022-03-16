@@ -12,6 +12,11 @@ public class MainController {
     public String inicio() {
         return "index";
     }
+    @GetMapping("/error")
+    public String error(){
+        return "error.html";
+    }
+    
 
 
 }

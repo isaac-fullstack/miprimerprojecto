@@ -87,7 +87,6 @@ public class ClienteControlador {
             librosPrestados.add(prestamo.getLibro());
         }
         
-        
         model.addAttribute("librosPrestados", librosPrestados);
         model.addAttribute("prestamos", prestamos);
 
