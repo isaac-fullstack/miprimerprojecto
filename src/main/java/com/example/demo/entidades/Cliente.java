@@ -1,7 +1,10 @@
 
 package com.example.demo.entidades;
 
+import com.example.demo.enumeraciones.Rol;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import org.hibernate.annotations.GenericGenerator;
@@ -12,22 +15,47 @@ public class Cliente {
     @Id
     @GeneratedValue(generator ="uuid")
     @GenericGenerator(name="uuid",strategy="uuid2")
-    public String id;
-    public String nombre;
-    public String apellido;
-    public String telefono;
-    public Boolean alta;
+    private String id;
+    private String nombre;
+    private String apellido;
+    private String telefono;
+    private Boolean alta;
+    private String email;
+    private String clave;
+    
+    @Enumerated(EnumType.STRING)
+    public Rol rol;
 
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
     public Cliente() {
     }
 
-    public Cliente(String id, String nombre, String apellido, String telefono, Boolean alta) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.telefono = telefono;
-        this.alta = alta;
+    public Rol getRol() {
+        return rol;
     }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+    
+    
+
+  
 
     public String getId() {
         return id;

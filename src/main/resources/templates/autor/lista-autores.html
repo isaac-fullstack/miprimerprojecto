@@ -15,14 +15,53 @@
 <body class="background">
     <header th:replace="fragmentos/navbar::miNavBar"></header>
 
+    <div class="table-responsive container bg-opaco rounded-3 mt-3">
+        <div class="row mb-3 mt-3 ">
+            <h3 class="col-md">Lista de Autores</h3>
+            <div class="col-md">
+                <button class="btn btn-primary " type="button" data-toggle="collapse" data-target="#form"
+                    aria-expanded="false" aria-controls="form">
+                    Crear Autor
+                </button>
+            </div>
+        </div>
 
-    <div class="table-responsive bg-opaco bg-opacity-10 rounded-3 container ">
-        <h3>Los autores son:</h3>
+        <div class="collapse" id="form">
+            <form id="survey-form" action="/autor/form" method="post">
+                <div>
+                    <h3 class="text-center mb-3">Crear Autor</h3>
+                    <input type="hidden" name="id" th:value="${id}">
+
+                    <fieldset disabled>
+                        <div class=" row mb-3">
+                            <label for="id" class="col-sm-2 col-form-label">id</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="id" th:value="${id}" placeholder="Se genera automaticamente"
+                                    class="form-control">
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="row mb-3 ">
+                        <label class="col-sm-2 col-form-label">Nombre</label>
+                        <div class="col-sm-4">
+
+                            <input class="form-control" type="text" name="nombre" th:value="${nombre}">
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+
+        <p class="text-center bg-warning  d-sm-inline m-3" th:text="${error != null ? error : '' }"></p>
+
         <table class="table table-striped table-hover">
 
             <thead>
                 <th>Nombre</th>
-                <th>#Id</th>
                 <th>Alta </th>
                 <th>Editar</th>
                 <th>Eliminar</th>
@@ -31,7 +70,6 @@
             <tbody>
                 <tr th:each="autor:${autores}">
                     <td th:text="${autor.nombre}"></td>
-                    <td th:text="${autor.id}"></td>
 
                     <td th:if="${autor.alta}">
                         <a class="btn btn-success" th:href="@{/autor/baja/__${autor.id}__}">
@@ -73,15 +111,20 @@
                 </tr>
             </tbody>
         </table>
-        <p class="text-center" th:text="${error != null ? error : '' }"></p>
     </div>
 
     <footer th:replace="fragmentos/footer::myFooter"></footer>
 
-    
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
 </body>

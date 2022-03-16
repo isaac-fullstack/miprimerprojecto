@@ -5,9 +5,12 @@ import com.example.demo.entidades.Libro;
 import com.example.demo.errores.ErrorServicio;
 import com.example.demo.servicios.AutorServicio;
 import com.example.demo.servicios.LibroServicio;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/autor")
+@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 public class AutorControlador {
 
     private final AutorServicio autorServicio;
@@ -35,18 +39,16 @@ public class AutorControlador {
             @RequestParam(required = false) String id,
             ModelMap model) {
 
-       
-            try {
-                if (id != null && !id.isEmpty() && !id.equals(" ")) {
+        try {
+            if (id != null && !id.isEmpty() && !id.equals(" ")) {
                 model.addAttribute("id", id);
                 Autor autor = autorServicio.buscarPorId(id);
                 model.addAttribute("nombre", autor.getNombre());
-                }
-            } catch (ErrorServicio e) {
-                model.addAttribute("error", e.getMessage());
             }
+        } catch (ErrorServicio e) {
+            model.addAttribute("error", e.getMessage());
+        }
 
-        
         return "/autor/crearAutor.html";
 
     }
@@ -58,11 +60,13 @@ public class AutorControlador {
             ModelMap model) {
 
         try {
-
             autorServicio.guardar(id, nombre);
         } catch (ErrorServicio e) {
+            List<Autor> autores = autorServicio.listarTodos();
+            autores.sort(Comparator.comparing(Autor::getNombre));
+            model.addAttribute("autores", autores);
             model.addAttribute("error", e.getMessage());
-            return "/autor/crearAutor.html";
+            return "/autor/lista-autores.html";
         }
 
         return "redirect:/autor/listado";
@@ -71,6 +75,7 @@ public class AutorControlador {
     @GetMapping("/listado")
     public String mostrarListado(ModelMap model) {
         List<Autor> autores = autorServicio.listarTodos();
+        autores.sort(Comparator.comparing(Autor::getNombre));
         model.addAttribute("autores", autores);
         return "autor/lista-autores.html";
     }

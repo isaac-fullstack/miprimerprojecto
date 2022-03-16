@@ -13,10 +13,12 @@
 <body>
 
     <header th:fragment="miNavBar">
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-
-                <a class="navbar-brand"></a>
+                <div class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
+                    <a class="nav-item nav-link active" aria-current="page" href="/">Inicio</a>
+                </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
                     aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -25,38 +27,32 @@
                 <div class="collapse navbar-collapse" id="navbarScroll">
                     <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/libro/form">Crear Libro</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/libro/listado">Ver Libros</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/autor/form">Crear Autor</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/autor/listado">Ver Autores</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/editorial/form">Crear Editorial</a>
+                        </li> -->
 
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <a class="nav-link" href="/libro/listado">Libros</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasAnyRole('ADMIN')">
+                            <a class="nav-link" href="/autor/listado">Autores</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/editorial/listado">Ver Editoriales</a>
-
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/cliente/form">Crear Cliente</a>
-
+                            <a class="nav-link" href="/editorial/listado"
+                                sec:authorize="hasAnyRole('ADMIN')">Editoriales</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/cliente/listado">Ver Clientes</a>
-
+                            <a class="nav-link" href="/cliente/listado" sec:authorize="hasAnyRole('ADMIN')">Clientes</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/prestamo/listado"
+                                sec:authorize="hasAnyRole('ADMIN')">Prestamos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/prestamo/listado/cliente"
+                                sec:authorize="hasAnyRole('USER')">Prestamos</a>
+                        </li>
+
 
                         <!--
                             <li class="nav-item dropdown">
@@ -110,6 +106,23 @@
                         <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
                         -->
+                    </ul>
+
+                    <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                        <li>
+                            <a href="/login" class="nav-link" sec:authorize="!isAuthenticated()">LogIn</a>
+                        </li>
+                        <li>
+                            <a href="/cliente/perfil" class="nav-link" sec:authorize="isAuthenticated()"
+                                th:if="${session.clienteSesion != null}"
+                                th:text="${session.clienteSesion.nombre}">LogIn</a>
+                        </li>
+                        <li>
+                            <a href="/cliente/registro" class="nav-link" sec:authorize="!isAuthenticated()">Registro</a>
+                        </li>
+                        <li sec:authorize="isAuthenticated()">
+                            <a href="/logout" class="nav-link" sec:authorize="hasAnyRole('ADMIN','USER')">Cerrar Sesion</a>
+                        </li>
                     </ul>
                 </div>
             </div>

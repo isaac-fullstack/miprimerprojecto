@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../styles.css" type="text/css" rel="stylesheet" />
+    <title>Biblioteca</title>
+</head>
+
+<body class="background">
+    <header th:replace="fragmentos/navbar::miNavBar"></header>
+
+    <div class="container bg-opaco rounded-3 mt-5 mb-3">
+        <h3>Perfil:</h3>
+
+        <div class="container-sm">
+            <div class="row">
+                <div class="col-sm">
+                    <label for="name">Nombre:</label>
+                    <p id="name" th:if="${session.clienteSesion != null}" th:text="${session.clienteSesion.nombre}"></p>
+                </div>
+                <div class="col-sm">
+                    <label for="name">Apellido:</label>
+
+                    <p th:if="${session.clienteSesion != null}" th:text="${session.clienteSesion.apellido}"></p>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm">
+
+                    <label for="name">Telefono:</label>
+
+                    <p th:if="${session.clienteSesion != null}" th:text="${session.clienteSesion.telefono}"></p>
+                </div>
+                <div class="col-sm">
+
+                    <label for="name">Email:</label>
+                    <p th:if="${session.clienteSesion != null}" th:text="${session.clienteSesion.email}"></p>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+
+        <p class="text-center mb-3 text-danger" th:text="${error != null ? error : '' }"></p>
+    </div>
+
+
+
+    <footer th:replace="fragmentos/footer::myFooter"></footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

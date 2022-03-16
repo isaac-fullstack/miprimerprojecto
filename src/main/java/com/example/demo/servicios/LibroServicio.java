@@ -20,9 +20,9 @@ public class LibroServicio {
     private LibroRepositorio libroRepositorio; 
     
     @Transactional(rollbackOn = Exception.class)
-    public void guardar(String id, Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer EjemplaresRestantes, Autor autor, Editorial editorial) throws ErrorServicio{
+    public void guardar(String id, Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Autor autor, Editorial editorial) throws ErrorServicio{
     
-        validar(isbn, titulo, anio, ejemplares, ejemplaresPrestados, EjemplaresRestantes, autor, editorial);
+        validar(isbn, titulo, anio, ejemplares, ejemplaresPrestados, autor, editorial);
         
         Libro libro = new Libro();
         
@@ -35,7 +35,7 @@ public class LibroServicio {
         libro.setAnio(anio);
         libro.setEjemplares(ejemplares);
         libro.setEjemplaresPrestados(ejemplaresPrestados);
-        libro.setEjemplaresRestantes(EjemplaresRestantes);
+        libro.setEjemplaresRestantes(ejemplares-ejemplaresPrestados);
         libro.setAlta(true);
         libro.setAutor(autor);
         libro.setEditorial(editorial);
@@ -56,7 +56,7 @@ public class LibroServicio {
     }
     
     @Transactional(rollbackOn = Exception.class)
-    public void validar(Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, Autor autor, Editorial editorial) throws ErrorServicio{
+    public void validar(Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Autor autor, Editorial editorial) throws ErrorServicio{
      
         if (isbn == null || isbn.equals("")) {
             throw new ErrorServicio("Isbn Vacio");
@@ -73,17 +73,14 @@ public class LibroServicio {
         if (ejemplaresPrestados == null || ejemplaresPrestados.equals("")) {
             throw new ErrorServicio("Ejemplares Prestados Vacio");
         }
-        if (ejemplaresRestantes == null || ejemplaresRestantes.equals("")) {
-            throw new ErrorServicio("Ejemplares Restantes Vacio");
-        }
     }
     
     @Transactional(rollbackOn = Exception.class)
-    public void modificar(String id, Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer EjemplaresRestantes, Boolean alta, Autor autor, Editorial editorial) throws ErrorServicio{
+    public void modificar(String id, Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Boolean alta, Autor autor, Editorial editorial) throws ErrorServicio{
         if (id == null || id.isEmpty()) {
             throw new ErrorServicio("El id no puede estar vacio");
         }
-        validar(isbn, titulo, anio, ejemplares, ejemplaresPrestados, EjemplaresRestantes, autor, editorial);
+        validar(isbn, titulo, anio, ejemplares, ejemplaresPrestados, autor, editorial);
         
         Optional<Libro> respuesta = libroRepositorio.findById(id);
         if (respuesta.isPresent()) {
@@ -93,7 +90,7 @@ public class LibroServicio {
         libro.setAnio(anio);
         libro.setEjemplares(ejemplares);
         libro.setEjemplaresPrestados(ejemplaresPrestados);
-        libro.setEjemplaresRestantes(EjemplaresRestantes);
+        libro.setEjemplaresRestantes(ejemplares-ejemplaresPrestados);
         libro.setAlta(alta);
         libro.setAutor(autor);
         libro.setEditorial(editorial);
@@ -153,6 +150,25 @@ public class LibroServicio {
      public List<Libro> buscarPorEditorialId(String editorialId){
          List<Libro> libros = libroRepositorio.buscarPorEditorialId(editorialId);
          return libros;
+     }
+     
+     @Transactional(rollbackOn = Exception.class)
+     public void prestar(Libro libro){
+         libro.setEjemplaresPrestados(libro.getEjemplaresPrestados()+1);
+         libro.setEjemplaresRestantes(libro.getEjemplaresRestantes()-1);
+         libroRepositorio.save(libro);
+     }
+     
+     @Transactional(rollbackOn = Exception.class)
+     public void devolver(Libro libro){
+         libro.setEjemplaresPrestados(libro.getEjemplaresPrestados()-1);
+         libro.setEjemplaresRestantes(libro.getEjemplaresRestantes()+1);
+         libroRepositorio.save(libro);
+     }
+     
+     @Transactional(rollbackOn = Exception.class)
+     public List<Libro> buscarPorPalabra(String palabra){
+         return libroRepositorio.buscarPorPalabra(palabra);
      }
 
 }
